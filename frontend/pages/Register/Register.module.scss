@@ -1,0 +1,50 @@
+.wrapper {
+  @apply flex justify-center items-center h-screen;
+  user-select: none;
+}
+
+.form_div_outer {
+  @apply sm:rounded-md w-full h-full sm:max-h-[625px] sm:max-w-md bg-neutral-800 filter sm:drop-shadow-[0_0_10rem_#3f2a56];
+}
+
+.header {
+  @apply flex flex-col items-center mt-10;
+}
+
+.input {
+  &__form {
+    @apply w-full flex flex-col items-center;
+  }
+
+  &_form_inner {
+    @apply w-full flex flex-col items-center;
+  }
+
+  &__fields {
+    @apply py-3 w-11/12 flex justify-center;
+  }
+
+  &_fields_name {
+    @apply flex  w-[80%];
+  }
+
+  &__icon {
+    @apply p-[.5rem] bg-neutral-700 rounded-l translate-x-1;
+  }
+
+  &_first_name {
+    @apply p-3 bg-neutral-900 placeholder-neutral-700 w-[90%] outline-none;
+  }
+
+  &_last_name {
+    @apply p-3 ml-5 bg-neutral-900 placeholder-neutral-700 w-[90%] outline-none;
+  }
+
+  &__name {
+    @apply p-3 bg-neutral-900 placeholder-neutral-700 w-[80%] outline-none;
+  }
+}
+
+.btn {
+  @apply text-sm mt-5 h-10 w-24 border border-neutral-500 rounded-3xl hover:bg-[#3F2A56] transition duration-300;
+}
