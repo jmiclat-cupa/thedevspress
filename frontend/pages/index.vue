@@ -6,9 +6,7 @@
     <NuxtLink v-else to="./Login">Login</NuxtLink>
     <button @click.prevent="logout">Logout</button>
   </div>
-  <div class="w-full flex justify-center">
-    <Tiptap />
-  </div>
+  <Tiptap />
 </template>
 
 <script setup>

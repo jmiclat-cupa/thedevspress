@@ -18,6 +18,14 @@
     margin-top: 0.75em;
   }
 
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
   ul,
   ol {
     padding: 0 1rem;
@@ -36,8 +44,7 @@
   }
 
   pre {
-    background: #0d0d0d;
-    color: #fff;
+    @apply bg-neutral-800;
     font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
@@ -50,7 +57,7 @@
     }
     .hljs-comment,
     .hljs-quote {
-      color: #616161;
+      @apply text-neutral-400;
     }
 
     .hljs-variable,
@@ -105,14 +112,52 @@
   }
 }
 
-.rteWrapper {
-  @apply w-10/12 flex flex-col items-center;
+.rte {
+  &Wrapper {
+    @apply flex justify-center w-9/12 mx-auto border  rounded-lg border-neutral-400 p-6;
+  }
+  &__format {
+    @apply px-3 order-1 sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
+  &__size {
+    @apply px-3 order-2 sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
+  &__list {
+    @apply px-3 order-3 sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
+  &__alignment {
+    @apply px-3 order-3 sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
+  &__misc {
+    @apply px-3 order-4  sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
+  &__do {
+    @apply px-3 order-5 sm:w-auto;
+    button {
+      @apply mx-2;
+    }
+  }
 }
 
 .btnsWrapper {
-  @apply w-10/12 grid gap-5 grid-cols-5 sm:grid-cols-6 lg:grid-cols-8;
+  @apply flex justify-center flex-wrap gap-5 mx-auto;
 }
 
 .btnEditor {
-  @apply p-1 rounded-md border hover:bg-slate-500 duration-200;
+  @apply p-1 rounded-md border hover:bg-[#3F2A56] duration-200;
 }
