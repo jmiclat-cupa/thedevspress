@@ -68,11 +68,13 @@ const handleSubmit = async () => {
     });
 
     if (user) {
-      toast.success("Login Successful!");
+      toast.success("Login Successful!", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       router.push("../");
     }
   } catch (error: any) {
-    toast.error(authStore.message);
+    toast.error(authStore.message, { position: toast.POSITION.BOTTOM_RIGHT });
   }
 };
 

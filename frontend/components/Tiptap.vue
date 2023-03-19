@@ -186,7 +186,7 @@
         class="w-full border hover:border-[#3F2A56] rounded-md mt-7 duration-300"
         :editor="editor"
       />
-      <button class="btnEditor" @click.prevent="getbruh">Get HTML</button>
+      <!-- <button class="btnEditor" @click.prevent="getbruh">Get HTML</button> -->
     </div>
   </div>
   <!-- <p>{{ hello }}</p> -->

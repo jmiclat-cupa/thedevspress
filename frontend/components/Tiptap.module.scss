@@ -114,42 +114,42 @@
 
 .rte {
   &Wrapper {
-    @apply flex justify-center w-9/12 mx-auto border  rounded-lg border-neutral-400 p-6;
+    @apply flex justify-center w-9/12 mx-auto border rounded-lg border-neutral-400 p-7;
   }
   &__format {
-    @apply px-3 order-1 sm:w-auto;
+    @apply order-1 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
   &__size {
-    @apply px-3 order-2 sm:w-auto;
+    @apply order-2 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
   &__list {
-    @apply px-3 order-3 sm:w-auto;
+    @apply order-4 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
   &__alignment {
-    @apply px-3 order-3 sm:w-auto;
+    @apply order-3 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
   &__misc {
-    @apply px-3 order-4  sm:w-auto;
+    @apply order-5 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
   &__do {
-    @apply px-3 order-5 sm:w-auto;
+    @apply order-6 sm:w-auto;
     button {
-      @apply mx-2;
+      @apply mx-1;
     }
   }
 }

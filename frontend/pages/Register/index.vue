@@ -112,11 +112,13 @@ const handleSubmit = async () => {
       password: passwordRegister.value,
     });
     if (user) {
-      toast.success("Registered Successfully!");
+      toast.success("Registered Successfully!", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       router.push("../");
     }
   } catch (error: any) {
-    toast.error(authStore.message);
+    toast.error(authStore.message, { position: toast.POSITION.BOTTOM_RIGHT });
   }
 };
 
