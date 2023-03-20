@@ -9,9 +9,10 @@ export default class PostsController {
   // Index post
   public async index({ request, response }: HttpContextContract) {
     const page = request.input('page', 1) // Default page number.
-    const perPage = request.input('per_page', 25) // Per page number of posts
+    const perPage = request.input('per_page', 10) // Per page number of posts
     const userId = request.input('user_id') // Filtering by userID
     const categoryId = request.input('category_id') // Filtering by category ID
+    const search = request.input('search') // Search query
     const validatedData = await request.validate(SortValidator) //Sets a validator for Sorting
     const sortBy = validatedData.sort_by || 'id' //For sorting
     const order = validatedData.order || 'asc' //For sorting
@@ -25,8 +26,11 @@ export default class PostsController {
         // Filtering by category ID
         query.where('category_id', categoryId)
       })
+      .if(search, (query) => {
+        // Filtering by search query
+        query.where('title', 'LIKE', `%${search}%`)
+      })
       .withCount('likes')
-      .orderBy('likes_count', order)
       .orderBy(sortBy, order) //For sorting
       .preload('user')
       .preload('category')

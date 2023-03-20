@@ -57,12 +57,12 @@
 import { useAuthStore } from "../../stores/AuthStore.js";
 import { toast } from "vue3-toastify";
 const router = useRouter();
-const authStore = useAuthStore();
+const AuthStore = useAuthStore();
 const emailLogin = ref("");
 const passwordLogin = ref("");
 const handleSubmit = async () => {
   try {
-    const user = await authStore.login({
+    const user = await AuthStore.login({
       email: emailLogin.value,
       password: passwordLogin.value,
     });
@@ -74,13 +74,13 @@ const handleSubmit = async () => {
       router.push("../");
     }
   } catch (error: any) {
-    toast.error(authStore.message, { position: toast.POSITION.BOTTOM_RIGHT });
+    toast.error(AuthStore.message, { position: toast.POSITION.BOTTOM_RIGHT });
   }
 };
 
 onBeforeMount(() => {
-  authStore.setUserOnLoad();
-  if (authStore.user) {
+  AuthStore.setUserOnLoad();
+  if (AuthStore.user) {
     router.push("../");
   }
 });

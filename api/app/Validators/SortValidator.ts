@@ -12,6 +12,7 @@ export default class SortValidator {
       'title',
       'created_at',
       'updated_at',
+      'likes_count',
     ]),
     order: schema.enum.optional(['asc', 'desc'] as const),
   })

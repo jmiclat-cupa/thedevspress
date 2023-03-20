@@ -32,49 +32,26 @@
               <Icon v-else name="ph:caret-down"></Icon>
             </button>
             <div v-if="categoryDropdown">
-              <div class="category">
+              <div
+                class="category"
+                v-for="category in categories"
+                :key="category.id"
+              >
                 <input
                   type="checkbox"
-                  id="general"
-                  class="focus:ring-violet-800 focus:ring-2"
+                  :id="category.id"
+                  v-model="selectedCategories"
+                  :value="category.id"
+                  @change="updateUrl(selectedCategories)"
                 />
-                <label for="general">General</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="html" />
-                <label for="html">HTML</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="css" />
-                <label for="css">CSS</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="javascript" />
-                <label for="javascript">JavaScript</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="vuejs" />
-                <label for="vuejs">Vue JS</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="nuxtjs" />
-                <label for="nuxt">Nuxt JS</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="adonisjs" />
-                <label for="adonisjs">Adonis JS</label><br />
-              </div>
-              <div class="category">
-                <input type="checkbox" id="git" />
-                <label for="git">Git</label><br />
+                <label :for="category.id">{{ category.name }}</label
+                ><br />
               </div>
             </div>
           </div>
         </div>
         <div>
-          <div
-            class="relative flex md:justify-end justify-between mr-10 md:-mt-5 mb-5 mt-7"
-          >
+          <div class="relative flex justify-between mr-10 md:-mt-5 mb-5 mt-7">
             <div class="md:hidden">
               <p class="mr-3">Filter by:</p>
               <button class="font-bold" @click="isFilterOpen = !isFilterOpen">
@@ -88,11 +65,7 @@
                   class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-t-lg"
                 >
                   <div class="category">
-                    <input
-                      type="checkbox"
-                      id="general"
-                      class="focus:ring-violet-800 focus:ring-2"
-                    />
+                    <input type="checkbox" id="general" />
                     <label for="general">General</label><br />
                   </div>
                 </a>
@@ -136,14 +109,17 @@
                   class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-b-lg"
                 >
                   <div class="category">
-                    <input type="checkbox" id="Git" />
+                    <input type="checkbox" id="git" />
                     <label for="git">Git</label><br />
                   </div>
                 </a>
               </div>
             </div>
-            <div>
-              <p class="mr-3">Sort by:</p>
+            <div class="md:w-8/12 lg:w-9/12 hidden md:block">
+              <Searchbar v-model="search" :searchPosts="searchPosts" />
+            </div>
+            <div class="md:w-3/12 lg:w-2/12">
+              <p class="mr-5">Sort by:</p>
               <button class="font-bold" @click="isSortOpen = !isSortOpen">
                 {{ sortByValue }}
               </button>
@@ -153,91 +129,18 @@
               >
                 <a
                   @click.prevent="sortByValue.value === 1"
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-t-lg cursor-pointer"
+                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-t-lg cursor-pointer duration-300"
                   >Likes</a
                 >
                 <a
                   @click.prevent="sortByValue.value = 1"
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-b-lg cursor-pointer"
-                  >Created At</a
+                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-b-lg cursor-pointer duration-300"
+                  >Date Created</a
                 >
               </div>
             </div>
           </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="table__head">Title</th>
-                <th class="table__head">Posted by:</th>
-                <th class="table__head">Likes</th>
-                <th class="table__head">Activity</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="table__row">
-                <td class="table__title">
-                  <NuxtLink to="/"> How to center a div? </NuxtLink>
-                </td>
-                <td class="table__data">Malcolm Lockyer</td>
-                <td class="table__data">1961</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Witchy Woman</td>
-                <td class="table__data">The Eagles</td>
-                <td class="table__data">1972</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-              <tr class="table__row">
-                <td class="table__title">Shining Star</td>
-                <td class="table__data">Earth, Wind, and Fire</td>
-                <td class="table__data">1975</td>
-                <td class="table__data">1961</td>
-              </tr>
-            </tbody>
-          </table>
+          <Table :filteredPosts="filteredPosts"></Table>
           <nav class="pagination__div">
             <ul class="pagination__wrapper">
               <li>
@@ -270,10 +173,12 @@
 </template>
 
 <script setup>
-import Header from "~~/components/Header.vue";
+import Header from "~~/components/Header/index.vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/AuthStore.js";
-const authStore = useAuthStore();
-
+const AuthStore = useAuthStore();
+const router = useRouter();
 const categoryDropdown = ref(true);
 const categoryDropdownToggle = () => {
   categoryDropdown.value = !categoryDropdown.value;
@@ -282,9 +187,67 @@ const isFilterOpen = ref(false);
 const filterByValue = ref("None");
 const isSortOpen = ref(false);
 const sortByValue = ref("Created At");
+const search = ref("");
 
 onBeforeMount(() => {
-  authStore.setUserOnLoad();
+  AuthStore.setUserOnLoad();
+});
+
+const categories = [
+  { id: 1, name: "General" },
+  { id: 2, name: "HTML" },
+  { id: 3, name: "CSS" },
+  { id: 4, name: "JavaScript" },
+  { id: 5, name: "Vue JS" },
+  { id: 6, name: "Nuxt JS" },
+  { id: 7, name: "Adonis JS" },
+  { id: 8, name: "Git" },
+];
+
+const selectedCategories = ref([]);
+const posts = ref([]);
+
+const searchPosts = async () => {
+  try {
+    const response = await axios.get("http://localhost:3333/api/posts", {
+      params: {
+        search: search.value,
+      },
+    });
+    posts.value = response.data.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const filteredPosts = computed(() => {
+  if (!selectedCategories.value.length) {
+    return posts.value;
+  }
+
+  return posts.value.filter((post) =>
+    selectedCategories.value.includes(post.category.id)
+  );
+});
+
+const updateUrl = (selectedCategories) => {
+  // Construct the URL path based on the selected categories
+  let path = "/";
+  if (selectedCategories.length > 0) {
+    path += "?category_id=" + selectedCategories.join(",");
+  }
+
+  // Update the URL with the constructed path
+  router.push(path);
+};
+
+onMounted(async () => {
+  try {
+    const posts_response = await axios.get("http://localhost:3333/api/posts");
+    posts.value = posts_response.data.data.data;
+  } catch (error) {
+    console.error(error);
+  }
 });
 </script>
 

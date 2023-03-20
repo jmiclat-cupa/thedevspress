@@ -32,10 +32,10 @@ const login = async (userData) => {
   }
 };
 
-const authService = {
+const AuthService = {
   register,
   logout,
   login,
 };
 
-export default authService;
+export default AuthService;

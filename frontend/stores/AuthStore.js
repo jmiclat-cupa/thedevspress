@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import AuthService from "./AuthService";
 
-export const useAuthStore = defineStore("authStore", {
+export const useAuthStore = defineStore("AuthStore", {
   state: () => ({
     user: null,
     message: "",

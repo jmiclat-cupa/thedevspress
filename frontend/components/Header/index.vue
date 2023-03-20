@@ -4,13 +4,13 @@
     <NuxtLink to="/" class="w-full md:w-1/3 flex justify-center"
       ><img
         class="my-3 ml-5 sm:ml-0"
-        src="../assets/imgs/logo.png"
+        src="../..//assets/imgs/logo.png"
         alt="The Devs Press Logo"
         width="400"
     /></NuxtLink>
 
     <ul
-      v-if="!authStore.user"
+      v-if="!AuthStore.user"
       class="flex justify-end items-center w-full md:w-1/3"
     >
       <li class="mr-5 md:mr-10">
@@ -43,7 +43,7 @@
         <p
           class="text-sm hidden sm:block lg:text-lg hover:text-[#115E67] duration-300 cursor-default"
         >
-          {{ authStore.user.first_name + " " + authStore.user.last_name }}
+          {{ AuthStore.user.first_name + " " + AuthStore.user.last_name }}
         </p>
       </li>
       <li class="mr-2 md:mr-10">
@@ -63,12 +63,12 @@
 </template>
 
 <script setup>
-import { useAuthStore } from "../stores/AuthStore.js";
-const authStore = useAuthStore();
+import { useAuthStore } from "../../stores/AuthStore.js";
+const AuthStore = useAuthStore();
 const router = useRouter();
 
 const logout = async () => {
-  authStore.logout();
+  AuthStore.logout();
   router.push("/");
 };
 </script>
