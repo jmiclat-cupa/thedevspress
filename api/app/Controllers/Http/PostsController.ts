@@ -11,20 +11,21 @@ export default class PostsController {
     const page = request.input('page', 1) // Default page number.
     const perPage = request.input('per_page', 10) // Per page number of posts
     const userId = request.input('user_id') // Filtering by userID
-    const categoryId = request.input('category_id') // Filtering by category ID
+    const categoryIds = request.input('category_id') // Filtering by category ID
+    const categoryIdArray = categoryIds ? categoryIds.split(',') : []
     const search = request.input('search') // Search query
     const validatedData = await request.validate(SortValidator) //Sets a validator for Sorting
-    const sortBy = validatedData.sort_by || 'id' //For sorting
-    const order = validatedData.order || 'asc' //For sorting
+    const sortBy = validatedData.sort_by || 'updatedAt' //For sorting
+    const order = validatedData.order || 'desc' //For sorting
 
     const posts = await Post.query()
       .if(userId, (query) => {
         // Filtering by userID
         query.where('user_id', userId)
       })
-      .if(categoryId, (query) => {
+      .if(categoryIds, (query) => {
         // Filtering by category ID
-        query.where('category_id', categoryId)
+        query.whereIn('category_id', categoryIdArray)
       })
       .if(search, (query) => {
         // Filtering by search query

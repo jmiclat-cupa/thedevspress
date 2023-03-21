@@ -22,14 +22,14 @@
       type="search"
       class="block w-full p-4 pl-10 text-sm text-neutral-50 rounded-lg bg-[#115E67] border-gray-50 bg-opacity-60 outline-none"
       placeholder="Search for code snippets..."
-      :value="modelValue"
+      :value="modelValue || urlValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
 
 <script setup>
-const { modelValue } = defineProps(["modelValue"]);
+const { modelValue, urlValue } = defineProps(["modelValue", "urlValue"]);
 </script>
 
 <style lang="scss" scoped></style>

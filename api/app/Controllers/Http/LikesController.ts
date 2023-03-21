@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Like from 'App/Models/Like'
 import Post from 'App/Models/Post'
+import { DateTime } from 'luxon'
 
 export default class LikesController {
   public async store({ auth, params, response }: HttpContextContract) {
@@ -16,6 +17,8 @@ export default class LikesController {
       })
     } else {
       const like = await post.related('likes').create({ userId: auth.user?.id })
+      post.updatedAt = DateTime.now()
+      await post.save()
       await like?.load('user')
       await like?.load('post')
       return response.ok({ data: like })

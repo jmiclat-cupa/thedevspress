@@ -2,14 +2,14 @@
   <table class="table">
     <thead>
       <tr>
-        <th class="table__head">Title</th>
-        <th class="table__head">Posted by:</th>
-        <th class="table__head">Likes</th>
-        <th class="table__head">Date Created</th>
+        <th class="table__head w-6/12 px-10">Title</th>
+        <th class="table__head w-4/12 px-32">Posted by:</th>
+        <th class="table__head px-10">Likes</th>
+        <th class="table__head w-2/12 px-10">Last Updated</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="post in filteredPosts" class="table__row">
+      <tr v-for="post in posts" class="table__row">
         <td class="table__title">
           <span
             class="bg-[#115e67] px-3 py-1 rounded-full text-xs mr-3 font-bold cursor-default select-none"
@@ -22,7 +22,7 @@
         </td>
         <td class="table__data">{{ post.likes.length }}</td>
         <td class="table__data">
-          {{ formatDate(post.created_at) }}
+          {{ formatDate(post.updated_at) }}
         </td>
       </tr>
     </tbody>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-const { filteredPosts } = defineProps(["filteredPosts"]);
+const { posts } = defineProps(["posts"]);
 const formatDate = (time) => {
   const date = new Date(time);
   const year = date.toLocaleString("default", { year: "numeric" });

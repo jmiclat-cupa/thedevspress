@@ -1,6 +1,6 @@
 .mainWrapper {
   background-image: url("../assets/imgs/bg.png");
-  @apply bg-no-repeat bg-cover bg-center bg-fixed sm:h-[calc(100vh_-_6rem)];
+  @apply bg-no-repeat bg-cover bg-center bg-fixed min-h-[calc(100vh-6rem)];
 }
 
 .wrapper {
@@ -43,11 +43,23 @@
   label {
     @apply cursor-pointer;
   }
+
+  &__small {
+    @apply block px-4 py-2 hover:bg-[#115E67];
+
+    &:first-child {
+      @apply hover:rounded-t-lg;
+    }
+
+    &:first-child {
+      @apply hover:rounded-b-lg;
+    }
+  }
 }
 
 .pagination {
   &__div {
-    @apply flex justify-center mt-7 pb-20 sm:pb-0;
+    @apply flex justify-center mt-10 pb-10;
   }
 
   &__wrapper {
@@ -56,5 +68,19 @@
 
   &__item {
     @apply px-3 py-2 ml-0  border-neutral-700 bg-[#3F2A56] bg-opacity-70 hover:bg-opacity-100 duration-300;
+  }
+}
+
+.sort {
+  &__buttons {
+    @apply my-2 flex items-center px-2;
+  }
+
+  &__wrapper {
+    @apply absolute -right-4 mt-2 w-48 bg-neutral-800 rounded-lg;
+
+    label {
+      @apply px-1 cursor-pointer;
+    }
   }
 }

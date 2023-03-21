@@ -2,12 +2,15 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Post from 'App/Models/Post'
 import ReplyValidator from 'App/Validators/ReplyValidator'
+import { DateTime } from 'luxon'
 
 export default class RepliesController {
   public async store({ request, params, auth, response }: HttpContextContract) {
     const { content } = await request.validate(ReplyValidator)
     const post = await Post.findOrFail(params.post_id)
     const reply = await post.related('replies').create({ userId: auth.user?.id, content })
+    post.updatedAt = DateTime.now()
+    await post.save()
     await reply?.load('user')
     await reply?.load('post')
     return response.ok({ data: reply })

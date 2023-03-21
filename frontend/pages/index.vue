@@ -40,9 +40,9 @@
                 <input
                   type="checkbox"
                   :id="category.id"
-                  v-model="selectedCategories"
+                  v-model="filters"
                   :value="category.id"
-                  @change="updateUrl(selectedCategories)"
+                  @change="selectedFilters(category.id, $event.checked)"
                 />
                 <label :for="category.id">{{ category.name }}</label
                 ><br />
@@ -50,11 +50,20 @@
             </div>
           </div>
         </div>
+        <Searchbar
+          class="mt-10 md:hidden"
+          v-model="search"
+          :urlValue="route.query.search"
+        />
+
         <div>
           <div class="relative flex justify-between mr-10 md:-mt-5 mb-5 mt-7">
-            <div class="md:hidden">
+            <div class="w-1/2 md:hidden">
               <p class="mr-3">Filter by:</p>
-              <button class="font-bold" @click="isFilterOpen = !isFilterOpen">
+              <button
+                class="font-bold text-start"
+                @click="isFilterOpen = !isFilterOpen"
+              >
                 {{ filterByValue }}
               </button>
               <div
@@ -62,107 +71,89 @@
                 v-show="isFilterOpen"
               >
                 <a
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-t-lg"
+                  class="category__small"
+                  v-for="category in categories"
+                  :key="category.id"
                 >
-                  <div class="category">
-                    <input type="checkbox" id="general" />
-                    <label for="general">General</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="html" />
-                    <label for="html">HTML</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="css" />
-                    <label for="css">CSS</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="javascript" />
-                    <label for="javascript">JavaScript</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="vuejs" />
-                    <label for="vuejs">Vue JS</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="nuxtjs" />
-                    <label for="nuxt">Nuxt JS</label><br />
-                  </div>
-                </a>
-                <a class="block px-4 py-2 hover:bg-[#115E67]">
-                  <div class="category">
-                    <input type="checkbox" id="adonisjs" />
-                    <label for="adonisjs">Adonis JS</label><br />
-                  </div>
-                </a>
-                <a
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-b-lg"
-                >
-                  <div class="category">
-                    <input type="checkbox" id="git" />
-                    <label for="git">Git</label><br />
+                  <div class="category" :key="category.id">
+                    <input
+                      type="checkbox"
+                      :id="category.id"
+                      v-model="filters"
+                      :value="category.id"
+                      @change="selectedFilters(category.id, $event.checked)"
+                    />
+                    <label :for="category.id">{{ category.name }}</label
+                    ><br />
                   </div>
                 </a>
               </div>
             </div>
             <div class="md:w-8/12 lg:w-9/12 hidden md:block">
-              <Searchbar v-model="search" :searchPosts="searchPosts" />
+              <Searchbar v-model="search" :urlValue="route.query.search" />
             </div>
-            <div class="md:w-3/12 lg:w-2/12">
+            <div class="w-1/2 md:w-3/12 lg:w-2/12">
               <p class="mr-5">Sort by:</p>
               <button class="font-bold" @click="isSortOpen = !isSortOpen">
                 {{ sortByValue }}
               </button>
-              <div
-                class="absolute -right-4 mt-2 w-48 bg-neutral-800 rounded-lg"
-                v-show="isSortOpen"
-              >
-                <a
-                  @click.prevent="sortByValue.value === 1"
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-t-lg cursor-pointer duration-300"
-                  >Likes</a
-                >
-                <a
-                  @click.prevent="sortByValue.value = 1"
-                  class="block px-4 py-2 hover:bg-[#115E67] hover:rounded-b-lg cursor-pointer duration-300"
-                  >Date Created</a
-                >
+              <div class="sort__wrapper" v-show="isSortOpen">
+                <div class="sort__buttons">
+                  <input
+                    name="sortByRadio"
+                    id="sortByLikes"
+                    type="radio"
+                    @change="sortPosts('likes_count', 'desc')"
+                  /><label for="sortByLikes">Likes</label>
+                </div>
+                <div class="sort__buttons">
+                  <input
+                    checked
+                    name="sortByRadio"
+                    id="sortByThreadUpdated"
+                    type="radio"
+                    @change="sortPosts('updated_at', 'desc')"
+                  /><label for="sortByThreadUpdated">Thread Update</label>
+                </div>
               </div>
             </div>
           </div>
-          <Table :filteredPosts="filteredPosts"></Table>
-          <nav class="pagination__div">
+          <div class="overflow-x-scroll">
+            <Table :posts="posts" v-if="posts != 0"></Table>
+            <h1 class="mt-5 text-2xl" v-else>There are no posts found.</h1>
+          </div>
+
+          <nav class="pagination__div" v-if="posts != 0">
             <ul class="pagination__wrapper">
               <li>
-                <a href="#" class="pagination__item rounded-l-lg">Previous</a>
+                <button
+                  :disabled="currentPage - 1 == 0"
+                  @click="newPage(currentPage - 1)"
+                  class="pagination__item rounded-l-lg"
+                >
+                  Previous
+                </button>
+              </li>
+              <li
+                v-for="pageNumber in meta.last_page"
+                :key="pageNumber"
+                :class="{
+                  ' text-blue-700': currentPage == pageNumber,
+                }"
+                @click="newPage(pageNumber)"
+              >
+                <button class="pagination__item">
+                  {{ pageNumber }}
+                </button>
               </li>
               <li>
-                <a href="#" class="pagination__item">1</a>
-              </li>
-              <li>
-                <a href="#" class="pagination__item">2</a>
-              </li>
-              <li>
-                <a href="#" class="pagination__item">3</a>
-              </li>
-              <li>
-                <a href="#" class="pagination__item">4</a>
-              </li>
-              <li>
-                <a href="#" class="pagination__item">5</a>
-              </li>
-              <li>
-                <a href="#" class="pagination__item rounded-r-lg">Next</a>
+                <button
+                  :disabled="currentPage >= meta.last_page"
+                  @click="newPage(currentPage + 1)"
+                  class="pagination__item rounded-r-lg"
+                >
+                  Next
+                </button>
               </li>
             </ul>
           </nav>
@@ -175,23 +166,31 @@
 <script setup>
 import Header from "~~/components/Header/index.vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useAuthStore } from "../stores/AuthStore.js";
 const AuthStore = useAuthStore();
-const router = useRouter();
+const route = useRoute();
+
 const categoryDropdown = ref(true);
-const categoryDropdownToggle = () => {
-  categoryDropdown.value = !categoryDropdown.value;
-};
 const isFilterOpen = ref(false);
 const filterByValue = ref("None");
 const isSortOpen = ref(false);
-const sortByValue = ref("Created At");
+const sortByValue = ref("Thread Updated");
 const search = ref("");
+const filters = ref([]);
+const posts = ref();
+const meta = ref([]);
+const sortBy = ref("");
+const orderBy = ref("");
+const currentPage = ref(1);
 
 onBeforeMount(() => {
   AuthStore.setUserOnLoad();
 });
+
+const categoryDropdownToggle = () => {
+  categoryDropdown.value = !categoryDropdown.value;
+};
 
 const categories = [
   { id: 1, name: "General" },
@@ -204,51 +203,72 @@ const categories = [
   { id: 8, name: "Git" },
 ];
 
-const selectedCategories = ref([]);
-const posts = ref([]);
+const selectedFilters = (category_id, checked) => {
+  if (checked) {
+    filters.value.push(category_id);
+  }
+};
 
-const searchPosts = async () => {
+const sortPosts = (newSortBy, newOrderBy) => {
+  sortBy.value = newSortBy;
+  orderBy.value = newOrderBy;
+};
+
+const newPage = (pageNumber) => {
+  currentPage.value = pageNumber;
+};
+
+const fetchPosts = async () => {
   try {
-    const response = await axios.get("http://localhost:3333/api/posts", {
+    const response = await axios.get("http://127.0.0.1:3333/api/posts/", {
       params: {
-        search: search.value,
+        search: search.value || route.query.search,
+        category_id: filters.value.join(","),
+        sort_by: sortBy.value,
+        order: orderBy.value,
+        page: currentPage.value,
       },
     });
     posts.value = response.data.data.data;
+    meta.value = response.data.data.meta;
+    if (
+      search.value != "" ||
+      filters.value != 0 ||
+      sortBy.value != "" ||
+      orderBy.value != "" ||
+      currentPage.value > 1
+    ) {
+      const newUrl = `${window.location.pathname}?page=${currentPage.value}search=${search.value}&category=${filters.value}&sort_by=${sortBy.value}&order=${orderBy.value}`;
+      history.replaceState(null, "", newUrl);
+    } else {
+      history.replaceState(null, "", window.location.pathname);
+    }
   } catch (error) {
     console.error(error);
   }
 };
 
-const filteredPosts = computed(() => {
-  if (!selectedCategories.value.length) {
-    return posts.value;
-  }
-
-  return posts.value.filter((post) =>
-    selectedCategories.value.includes(post.category.id)
-  );
-});
-
-const updateUrl = (selectedCategories) => {
-  // Construct the URL path based on the selected categories
-  let path = "/";
-  if (selectedCategories.length > 0) {
-    path += "?category_id=" + selectedCategories.join(",");
-  }
-
-  // Update the URL with the constructed path
-  router.push(path);
-};
-
-onMounted(async () => {
+const paginatedPosts = async () => {
   try {
-    const posts_response = await axios.get("http://localhost:3333/api/posts");
-    posts.value = posts_response.data.data.data;
   } catch (error) {
     console.error(error);
   }
-});
+};
+
+const getFilterByValue = () => {
+  const filterNames = filters.value.map(
+    (filterId) => categories.find((category) => category.id === filterId)?.name
+  );
+  filterByValue.value = filterNames.join(", ");
+  if (filterByValue.value == 0) {
+    filterByValue.value = "None";
+  }
+};
+
+watch([search, filters, sortBy, currentPage], fetchPosts);
+watch(filters, getFilterByValue);
+
+onMounted(fetchPosts);
 </script>
 
 <style scoped lang="scss">
