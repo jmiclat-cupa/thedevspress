@@ -85,6 +85,6 @@ export default class PostsController {
       throw new UnauthorizedException('You can only delete your own post.')
     }
     await post.delete()
-    return response.noContent()
+    return response.ok({ data: 'Post deleted!' })
   }
 }

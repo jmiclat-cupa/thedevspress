@@ -115,7 +115,7 @@ const handleSubmit = async () => {
       toast.success("Registered Successfully!", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      router.push("../");
+      router.push("/");
     }
   } catch (error: any) {
     toast.error(AuthStore.message, { position: toast.POSITION.BOTTOM_RIGHT });

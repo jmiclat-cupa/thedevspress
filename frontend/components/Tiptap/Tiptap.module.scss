@@ -114,7 +114,7 @@
 
 .rte {
   &Wrapper {
-    @apply flex justify-center w-9/12 mx-auto border rounded-lg border-neutral-400 p-7;
+    @apply flex justify-center w-full mx-auto border rounded-lg border-neutral-700 p-7;
   }
   &__format {
     @apply order-1 sm:w-auto;
@@ -159,5 +159,5 @@
 }
 
 .btnEditor {
-  @apply p-1 rounded-md border hover:bg-[#3F2A56] duration-200;
+  @apply p-1 rounded-md border hover:bg-[#3F2A56] duration-300;
 }

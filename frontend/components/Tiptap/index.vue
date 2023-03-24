@@ -183,13 +183,11 @@
         </div>
       </div>
       <editor-content
-        class="w-full border hover:border-[#3F2A56] rounded-md mt-7 duration-300"
+        class="w-full border hover:border-[#3F2A56] rounded-md mt-7 duration-300 border-neutral-700"
         :editor="editor"
       />
-      <!-- <button class="btnEditor" @click.prevent="getbruh">Get HTML</button> -->
     </div>
   </div>
-  <!-- <p>{{ hello }}</p> -->
 </template>
 
 <script setup>
@@ -211,12 +209,14 @@ lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 lowlight.registerLanguage("scss", scss);
 
-// const hello = ref("");
+const { modelValue } = defineProps(["modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const editor = useEditor({
-  // onUpdate: () => {
-  //   hello.value = editor.value.getHTML();
-  // },
+  content: `${modelValue}`,
+  onUpdate: () => {
+    emit("update:modelValue", editor.value.getHTML());
+  },
   extensions: [
     StarterKit,
     TextAlign.configure({
@@ -230,14 +230,10 @@ const editor = useEditor({
   ],
   editorProps: {
     attributes: {
-      class: "outline-none p-5 min-h-[200px]",
+      class: "outline-none p-5 min-h-[400px] border-blue-200",
     },
   },
 });
-
-const getbruh = () => {
-  console.log(editor.value.getHTML());
-};
 </script>
 
 <style>

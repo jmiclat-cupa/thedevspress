@@ -5,13 +5,8 @@
       <div class="flex sm:justify-between flex-wrap">
         <div class="my-7 sm:my-10">
           <h1 class="text-4xl font-bold hover:text-[#115E67] duration-300">
-            Code Snippet Repository
+            Your Posts
           </h1>
-          <p
-            class="font-thin italic mt-3 ml-1 text-neutral-400 hover:text-[#115E67] duration-300"
-          >
-            For CUP & A devs, by CUP & A devs.
-          </p>
         </div>
         <button
           class="my-2 sm:my-10 bg-[#115E67] h-10 w-36 rounded-3xl hover:bg-[#0a383d] duration-300"
@@ -168,7 +163,7 @@
 import Header from "~~/components/Header/index.vue";
 import { toast } from "vue3-toastify";
 import { useRoute, useRouter } from "vue-router";
-import { useAuthStore } from "../stores/AuthStore.js";
+import { useAuthStore } from "~~/stores/AuthStore.js";
 import PostsService from "~~/stores/PostsService";
 const AuthStore = useAuthStore();
 const route = useRoute();
@@ -189,6 +184,12 @@ const currentPage = ref(1);
 
 onBeforeMount(() => {
   AuthStore.setUserOnLoad();
+  if (!AuthStore.user) {
+    router.push("/");
+    toast.error("You must be logged in to view profile!", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  }
 });
 
 const categoryDropdownToggle = () => {
@@ -203,6 +204,7 @@ const categories = [
   { id: 5, name: "Vue JS" },
   { id: 6, name: "Nuxt JS" },
   { id: 7, name: "Adonis JS" },
+  { id: 8, name: "Git" },
 ];
 
 const selectedFilters = (category_id, checked) => {
@@ -228,7 +230,8 @@ const fetchPosts = async () => {
       filters,
       sortBy,
       orderBy,
-      currentPage
+      currentPage,
+      AuthStore?.user?.id
     );
 
     posts.value = response.data;
@@ -286,5 +289,5 @@ onMounted(fetchPosts);
 </script>
 
 <style scoped lang="scss">
-@import "./Home.module.scss";
+@import "./Profile.module.scss";
 </style>

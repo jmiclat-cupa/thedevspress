@@ -15,7 +15,7 @@
     >
       <li class="mr-5 md:mr-10">
         <NuxtLink
-          to="./Login"
+          to="/Login"
           class="hover:text-[#115E67] duration-300 flex flex-wrap items-center"
         >
           <Icon
@@ -27,7 +27,7 @@
       </li>
       <li class="mr-3 md:mr-10">
         <NuxtLink
-          to="./Register"
+          to="/Register"
           class="hover:text-[#115E67] duration-300 flex flex-wrap items-center"
         >
           <Icon
@@ -40,11 +40,13 @@
     </ul>
     <ul v-else class="flex justify-end items-center w-full md:w-1/3">
       <li class="mr-2 md:mr-10">
-        <p
-          class="text-sm hidden sm:block lg:text-lg hover:text-[#115E67] duration-300 cursor-default"
-        >
-          {{ AuthStore.user.first_name + " " + AuthStore.user.last_name }}
-        </p>
+        <NuxtLink to="/Profile">
+          <p
+            class="text-sm hidden sm:block lg:text-lg hover:text-[#115E67] duration-300"
+          >
+            {{ AuthStore.user.first_name + " " + AuthStore.user.last_name }}
+          </p>
+        </NuxtLink>
       </li>
       <li class="mr-2 md:mr-10">
         <button

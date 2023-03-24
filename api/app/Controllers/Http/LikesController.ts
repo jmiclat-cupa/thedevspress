@@ -32,7 +32,7 @@ export default class LikesController {
       return response.notFound("You haven't liked this post yet")
     }
     await like.delete()
-    return response.noContent()
+    return response.ok({ data: 'Post deleted!' })
   }
 
   public async show({ params, auth, response }: HttpContextContract) {

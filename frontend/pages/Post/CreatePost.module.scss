@@ -1,0 +1,14 @@
+.mainWrapper {
+  background-image: url("~~/assets/imgs/bg.png");
+  @apply relative bg-no-repeat bg-cover bg-center bg-fixed min-h-[calc(100vh-6rem)];
+}
+
+.subWrapper {
+  @apply w-full md:w-7/12 mx-auto md:py-10;
+}
+
+.form {
+  &Wrapper {
+    @apply bg-neutral-900 px-10 py-1 md:rounded-lg bg-opacity-70;
+  }
+}
